@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Password@11",
+    "database": "smart_job",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "smartdatabase",
+    "password": "5m&rt@101",
+    "database": "smartdatabase",
+    "host": " db4free.net",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
