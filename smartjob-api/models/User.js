@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    DEFAULT_SALT_ROUNDS = 10
 
     static associate(models) {
       // define association here
@@ -42,7 +41,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       email: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        unique: true
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull:false,
+        defaultValue: false
+      },
+      token: {
+        type:DataTypes.TEXT,
+        allowNull: false
       },
       password: {
         allowNull: false,
@@ -50,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       phoneNumber: {
         allowNull: false,
-        type: DataTypes.VARCHAR(22)
+        type: 'VARCHAR(22)'
       },
       
   }, {
@@ -58,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
         beforeCreate: async (user) =>{
             const encryptedPassword = await bcrypt.hash(
                 user.password,
-                DEFAULT_SALT_ROUNDS
+                10
               );
               user.password = encryptedPassword;
         }

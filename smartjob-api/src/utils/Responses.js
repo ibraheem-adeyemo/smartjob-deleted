@@ -43,6 +43,7 @@ export default class Responses {
     * */ 
 
     static setError(statusCode, msg) {
+        console.log(msg)
         this.statusCode = statusCode
         this.message = msg;
         this.type = statusTitles.error

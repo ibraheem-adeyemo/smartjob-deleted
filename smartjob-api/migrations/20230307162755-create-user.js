@@ -7,7 +7,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       firstName: {
         allowNull: false,
@@ -19,7 +19,17 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique:true
+      },
+      isVerified: {
+        type:Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
+      token: {
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       password: {
         allowNull: false,

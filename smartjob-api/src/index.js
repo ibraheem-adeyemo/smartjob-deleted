@@ -1,8 +1,9 @@
+require('dotenv').config();
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-import errorHandler from 'errorhandler';
+// import errorHandler from 'errorhandler';
 import notifier from 'node-notifier'
 import Responses from './utils/Responses';
 import userRoute from './routes/userRoute';
@@ -10,8 +11,8 @@ import jobRoute from './routes/jobRoute';
 import { debug } from 'console';
 import sequelize from './utils/database';
 import serviceRoute from './routes/serviceRoute';
+import { errorHandler } from './middlewares/errorHandlers';
 
-require('dotenv').config();
 
 const app = express();
 
@@ -35,7 +36,7 @@ const errorNotification = (err, str, req) => {
 }
 
 if(!isProduction){
-    app.use(errorHandler({log:errorNotification}))
+    // app.use(errorHandler({log:errorNotification}))
     app.use(morgan('dev'))    
 }
 
@@ -53,6 +54,16 @@ app.get('/', (req, res) => {
 app.all('/*', (req, res)=>{
     Responses.setError(404, 'The requested url was not found on this server')
     Responses.send(res)
+})
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode ? err.statusCode : 500;
+
+    console.log(JSON.parse(JSON.stringify(err)))
+    res.status(statusCode).json({
+        err
+    })
+
 })
 
 if(!isProduction){
