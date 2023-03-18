@@ -23,12 +23,9 @@ export const createUser = async (userObj) => {
     // }
 }
 
-export const getAuserWithValue = async (key, val) => {
-    try {
-        const res = await User.find()
-    } catch (error) {
-        
-    }
+export const login = (loginObj) => {
+    const { email } = loginObj
+    return User.findOne({ where: { email }})
 }
 
 export const getAuserWithPK = async (id) => {

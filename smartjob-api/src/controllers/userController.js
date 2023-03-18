@@ -1,9 +1,9 @@
 import { constStrings } from "../constants";
-import { createUser, getAuserWithPK, udpdateUser } from "../services/user";
+import { createUser, getAuserWithPK, login, udpdateUser } from "../services/user";
 import { ErrorResponse } from "../utils/ErrorResponse"
 import { composeCourierVerificationMail, composeVerificationMail, courierMailSender, generateToken, hashPassword, sendEmail, transporter, verifyToken } from "../utils/helpers"
 import Responses from "../utils/Responses"
-import { authSchema } from "../utils/validations/authValidation";
+import { authSchema, loginSchema } from "../utils/validations/authValidation";
 
 
 const objectify = (data) => {
@@ -46,7 +46,7 @@ const signupController = async (req, res, next) => {
         // const courierRes = await courierMailSender({name:'', recipien: userEmail, content: composeCourierVerificationMail(userEmail, host, token)})
             
         const msg = constStrings.msg
-        Responses.setSuccess(201,msg, {token, userData});
+        Responses.setSuccess(201,msg, {token, data: userData});
         Responses.send(res)   
     } catch (error) {
         // const {code, errno} = JSON.parse(JSON.stringify(error)).parent
@@ -57,13 +57,34 @@ const signupController = async (req, res, next) => {
     }
 }
 
-const loginController = async (req, res) => {
+const loginController = async (req, res, next) => {
     try {
         const {email, password} = req.body
-        Responses.setSuccess(200, 'you are logged in');
+       
+        const userObj = {email, password}
+
+        let {error, value} = loginSchema.validate(userObj)
+        console.log(value)
+
+        if(error) next(new ErrorResponse(error.message, 400))
+
+        const userRes = await login(userObj)
+        const token = generateToken({id: userRes.id, email:userRes.email})
+        const data = {
+            id:userRes.id, 
+            firstName:userRes.firstName, 
+            lastName:userRes.lastName, 
+            email:userRes.email, 
+            phoneNumber:userRes.phoneNumber,
+            isVerified:userRes.isVerified
+        }
+
+        const msg = constStrings.msg
+        Responses.setSuccess(200, msg, {token, data});
         Responses.send(res)
     } catch (error) {
-        
+        console.log(JSON.parse(JSON.stringify(error)))
+        next({message:constStrings.databaseError, statusCode:500})
     }
 }
 
