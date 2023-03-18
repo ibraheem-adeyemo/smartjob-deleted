@@ -12,6 +12,8 @@ const passwd = process.env.EMAIL_PASSWORD
 const eventId = process.env.COURIER_EVENT_ID
 const recipientId = process.env.COURIER_RECIPIENT_ID
 const authToken = process.env.AUTH_TOKEN
+const mailTrapUser = process.env.MAIL_TRAP_USER
+const mailTrapPassword = process.env.MAIL_TRAP_PASS
 
 // SET STORAGE
 var storage = multer.diskStorage({
@@ -68,8 +70,8 @@ export const transporter = () => nodemailer.createTransport({
 host: "sandbox.smtp.mailtrap.io",
   port: 2525,
   auth: {
-    user: "6dfdb9400dc994",
-    pass: "04ca9011c343f6"
+    user: mailTrapUser,
+    pass: mailTrapPassword
   }
 });
 

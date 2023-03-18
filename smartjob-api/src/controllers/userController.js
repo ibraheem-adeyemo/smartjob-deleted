@@ -43,17 +43,11 @@ const signupController = async (req, res, next) => {
         const mailContent = composeVerificationMail(userData.email, host, token )
         sendEmail(transporter(), mailContent)
             
-            // const courierRes = await courierMailSender({name:'', recipien: userEmail, content: composeCourierVerificationMail(userEmail, host, token)})
+        // const courierRes = await courierMailSender({name:'', recipien: userEmail, content: composeCourierVerificationMail(userEmail, host, token)})
             
-            const msg = constStrings.msg
-            Responses.setSuccess(201,msg, {token, userData});
-            Responses.send(res)
-        // }
-        // else {
-        //     Responses.setError(500, constStrings.databaseError);
-        //     Responses.send(res)
-        //     // next(new ErrorResponse(errorMessage, statusCode))
-        // }    
+        const msg = constStrings.msg
+        Responses.setSuccess(201,msg, {token, userData});
+        Responses.send(res)   
     } catch (error) {
         // const {code, errno} = JSON.parse(JSON.stringify(error)).parent
         // errorCode = code
@@ -63,9 +57,14 @@ const signupController = async (req, res, next) => {
     }
 }
 
-const loginController = (req, res) => {
-    Responses.setSuccess(200, 'you are logged in');
-    Responses.send(res)
+const loginController = async (req, res) => {
+    try {
+        const {email, password} = req.body
+        Responses.setSuccess(200, 'you are logged in');
+        Responses.send(res)
+    } catch (error) {
+        
+    }
 }
 
 const verifyUserController = async (req, res, next) => {
