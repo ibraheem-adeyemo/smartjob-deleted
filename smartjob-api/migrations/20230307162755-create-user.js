@@ -27,10 +27,11 @@ module.exports = {
         allowNull: false,
         defaultValue: false
       },
-      token: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      },
+      username: {
+        type: Sequelize.STRING,
+        allowNull:true,
+        unique: true
+      },      
       password: {
         allowNull: false,
         type: Sequelize.STRING

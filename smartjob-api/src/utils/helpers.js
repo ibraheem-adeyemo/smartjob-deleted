@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { CourierClient } from '@trycourier/courier'
+import { constStrings } from '../constants';
 
 require('dotenv').config();
 
@@ -14,6 +15,7 @@ const recipientId = process.env.COURIER_RECIPIENT_ID
 const authToken = process.env.AUTH_TOKEN
 const mailTrapUser = process.env.MAIL_TRAP_USER
 const mailTrapPassword = process.env.MAIL_TRAP_PASS
+const hostUrl = process.env.HOST_URL
 
 // SET STORAGE
 var storage = multer.diskStorage({
@@ -51,12 +53,12 @@ export const sendEmail = async (transport, emailData) => {
         html: `${emailData.body}`
       });
   } catch (error) {
-    console.log(error);
+    console.log(JSON.parse(JSON.stringify(error)));
   }
 }
 
 export const transporter = () => nodemailer.createTransport({
-//   host: 'smtp.gmail.com',
+//   host: 'gmail.com',
 //   port: 587,
 //   secure: false,
 //   requireTLS: true,
@@ -75,30 +77,36 @@ host: "sandbox.smtp.mailtrap.io",
   }
 });
 
-export const composeVerificationMail = (email, host, token) => {
-    return {
-      recipientEmail: `${email}`,
-      subject: 'Email verification',
-      body: `<div>
-        Hi ${email} Thank you for signing up. <br/> Please click on the below link to activate your account.<br/>
-        <a href='http://${host}/api/v1/users/verifyUser/${token}'>Verify Your Email</a> <br/>
+export const composeVerificationMail = (emailData, mailType) => {
+    
+    const { recipientEmail, hashedSecret, userId, host, userFullName } = emailData
+    
+    switch (mailType) {
+        case constStrings.verifyUser:
+            return {
+                recipientEmail: `${recipientEmail}`,
+                subject: 'Email verification',
+                body: `<div>
+                  Hi ${userFullName} Thank you for signing up. <br/> Please click on the below link to activate your account.<br/>
+                  <a href='${hostUrl}/api/v1/users/verifyUser?hashedSecret=${hashedSecret}&email=${recipientEmail}&id=${userId}'>Verify Your Email</a> <br/>
+          
+                  See you soon. Thank you.
+                  </div>`
+              };
+        case constStrings.forgetPassword:
+            return {
+                recipientEmail: `${recipientEmail}`,
+                subject: 'Password reset link',
+                body: `<div>
+                Hi ${email} Kindly click on the link below to reset your password.<br /><br/>
+                <a href='${hostUrl}/api/v1/users/resetPassword'>Reset password</a> <br /> 
+                </div>`
+            }
+        default:
+            break;
+    }
 
-        See you soon. Thank you.
-        </div>`
-    };
-  }
-
-  export const composeCourierVerificationMail = (email, host, token) => {
-    return {
-    //   recipientEmail: `${email}`,
-      title: 'Email verification',
-      body: `<div>
-        Hi ${email} Thank you for signing up. <br/> Please click on the below link to activate your account.<br/>
-        <a href='http://${host}/api/v1/users/actvateUser/${token}'>Verify Your Email</a> <br/>
-
-        See you soon. Thank you.
-        </div>`
-    };
+    
   }
 
   const courier = CourierClient({ authorizationToken: authToken });
@@ -142,3 +150,9 @@ export const courierMailSender = (emailData) => courier.send({
         }
     }
 })
+
+export const sendMail = (emailData, mailType) => {
+    
+    const mailContent = composeVerificationMail(emailData, mailType )
+    sendEmail(transporter(), mailContent)
+}

@@ -20,7 +20,6 @@ module.exports = {
            phoneNumber:'08140404040',
            password:'Password@11',
            isVerified: false,
-           token: 'token',
            createdAt: new Date(),
            updatedAt: new Date()
          },
@@ -31,7 +30,7 @@ module.exports = {
             email:'smith@mail.com',
             password:'Password@11',
             isVerified: true,
-            token: 'token',
+            username:'Easy job',
             phoneNumber:'08140404040',
             createdAt: new Date(),
             updatedAt: new Date()
@@ -43,7 +42,6 @@ module.exports = {
             email:'abdullah2@mail.com',
             phoneNumber:'08140404040',
             isVerified: true,
-            token: 'token',
             password:'Password@11',
             createdAt: new Date(),
             updatedAt: new Date()
@@ -56,7 +54,6 @@ module.exports = {
             phoneNumber:'08140404040',
             password:'Password@11',
             isVerified: false,
-            token: 'token',
             createdAt: new Date(),
             updatedAt: new Date()
           },
@@ -68,7 +65,6 @@ module.exports = {
             phoneNumber:'08140404040',
             password:'Password@13',
             isVerified: true,
-            token: 'token',
             createdAt: new Date(),
             updatedAt: new Date()
           }], {})

@@ -49,9 +49,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull:false,
         defaultValue: false
       },
-      token: {
-        type:DataTypes.TEXT,
-        allowNull: false
+      username: {
+        type: DataTypes.STRING,
+        allowNull:true,
+        unique: true
       },
       password: {
         allowNull: false,
