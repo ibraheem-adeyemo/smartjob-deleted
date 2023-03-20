@@ -4,6 +4,8 @@ import { ErrorResponse } from "../utils/ErrorResponse"
 import { composeCourierVerificationMail, composeVerificationMail, courierMailSender, generateToken, hashPassword, sendEmail, sendMail, transporter, verifyToken } from "../utils/helpers"
 import Responses from "../utils/Responses"
 import { authSchema, loginSchema } from "../utils/validations/authValidation";
+import {UserActivation } from '../../models'
+import { generateRandomString } from "../utils/function";
 
 const secret = process.env.SECRET
 console.log(secret)
@@ -56,7 +58,7 @@ const signupController = async (req, res, next) => {
         // errorCode = code
         // Responses.setError(errorCode, errno)
         // Responses.send(res)
-        console.log( JSON.parse(JSON.stringify(error)))
+        console.log(error.type, error.message)
 
         next({message:constStrings.databaseError, statusCode:500})
     }
@@ -69,14 +71,12 @@ const loginController = async (req, res, next) => {
         const userObj = {email, password}
 
         let {error, value} = loginSchema.validate(userObj)
-        console.log(value)
 
         if(error) next(new ErrorResponse(error.message, 400))
 
         
         const userRes = await login(userObj)
         
-        console.log(userRes)
         const token = generateToken({id: userRes.id, email:userRes.email})
         const data = {
             id:userRes.id, 
@@ -97,20 +97,32 @@ const loginController = async (req, res, next) => {
 }
 
 const verifyUserController = async (req, res, next) => {
-    let updatedUser;
     try {
-        const { token } = req.params;
-        const {email, id} = verifyToken(token);
+        const {hashedSecret, email, id } = req.query
+
         const user = await getAuserWithPK(id);
-        console.log(user.email, user.id, id)
-        if(email === user.email) {
-            updatedUser = await udpdateUser(email);
+        
+        if(!user) {
+            next({message:'User could not be found', statusCode:404})
         }
-        Responses.setSuccess(200, 'Email has been verified');
-        return Responses.send(res);
+        const userActivationData = await UserActivation.findOne({where:{userId:user.id}})
+        if(!userActivationData) {
+            // Responses.setError(404, 'Account has been verified');
+            // Responses.send(res)
+            next({message:'Account has been verified', statusCode:401})
+        }
+        if(userActivationData?.hashedSecret === hashedSecret && email === user.email) {
+            const updatedUser = await udpdateUser(email);
+            UserActivation.destroy({where: {userId:id}})
+            Responses.setSuccess(200, 'Email has been verified successfully');
+            Responses.send(res);
+        } else {
+        next({message:'Unauthorized', statusCode:401})
+        }
+        
     } catch (error) {
-        const err = JSON.parse(JSON.stringify(error))
-        next({message:err.name, statusCode:401})
+        
+        next({message:error.message, statusCode:401})
     }
 }
 
@@ -136,18 +148,32 @@ const resendVerificationLinkController = async (req, res, next) => {
 
 }
 
-const forgetPasswordController = (req, res) => {
+const forgetPasswordController = async (req, res) => {
     try {
         const { host } = req.headers
         const { email } = req.body
 
-        const userRes = findUserByEmail(email)
+        const userRes = await findUserByEmail(email)
 
-        const token = generateToken({email:userRes.email, id:userRes.id})
+        if(!userRes) {
+            next({message:'User could not be found', statusCode:404})
+        }
+        const secret = process.env.SECRET + userRes.password
+        
+        const token = generateToken({email:userRes.email, id:userRes.id}, secret);
+        const randomString = generateRandomString(60);
+
+        const emailData = {
+            recipientEmail:userRes.email,
+            hashedSecret:token,
+            userId:'',
+            host,
+            userFullName:'User'
+        }
 
         const { forgetPassword, resetPasswordLinkSuccess} = constStrings
 
-        sendMail(userRes.email, host, token, forgetPassword)
+        sendMail(emailData, forgetPassword)
 
         Responses.setSuccess(200, resetPasswordLinkSuccess);
         Responses.send(res)
@@ -157,8 +183,24 @@ const forgetPasswordController = (req, res) => {
     }
 }
 
-const resetPasswordController = (req, res, next) => {
-
+const resetPasswordController = async (req, res, next) => {
+    try {
+        const {id, token} = req.params
+        const userRes = await getAuserWithPK(id)
+        if(!userRes) {
+            next({message:'User could not be found', statusCode:404})
+        }
+        const secret = process.env.SECRET + userRes.password
+        const payload = verifyToken(token, secret);
+        if(id !== payload.id) {
+            next({message:'Unauthorized', statusCode:401})
+        }
+        const newToken = generateToken({email:payload.email, id:userRes.id}, secret);
+        Responses.setSuccess(200, {token:newToken, message: 'You can now redirect to reset password page'})
+        Responses.send(res)
+    } catch (error) {
+        next({message:'There is error in redirect user to reset password page', statusCode:500})
+    }
 }
 
 export {

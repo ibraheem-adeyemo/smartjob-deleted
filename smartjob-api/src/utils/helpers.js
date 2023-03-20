@@ -32,15 +32,15 @@ export const hashPassword = async (password) => {
     return await bcrypt.hash(password, 10)
 }
 
-export const generateToken = (payload) => {
-    const token = jwt.sign(payload, secret, {
+export const generateToken = (payload, jwtSecret=secret) => {
+    const token = jwt.sign(payload, jwtSecret, {
         expiresIn: '1hr'
     })
     return token;
 }
 
-export const verifyToken = (token) => {
-    const decoded = jwt.verify(token, secret)
+export const verifyToken = (token, jwtSecret=secret) => {
+    const decoded = jwt.verify(token, jwtSecret)
     return decoded
 }
 
@@ -99,7 +99,7 @@ export const composeVerificationMail = (emailData, mailType) => {
                 subject: 'Password reset link',
                 body: `<div>
                 Hi ${email} Kindly click on the link below to reset your password.<br /><br/>
-                <a href='${hostUrl}/api/v1/users/resetPassword'>Reset password</a> <br /> 
+                <a href='${hostUrl}/api/v1/users/resetPassword/${userId}/${hashedSecret}'>Reset password</a> <br /> 
                 </div>`
             }
         default:

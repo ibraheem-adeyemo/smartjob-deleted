@@ -7,8 +7,7 @@ export const createUser = async (userObj) => {
     const response = await User.create(userObj);
 
     const res = await  UserActivation.create({hashedSecret: generateRandomString(60), userId:response.id, expiredOn:Date.now()+21600000})
-
-    const userData = {
+   const userData = {
                 id:response.id, 
                 firstName:response.firstName, 
                 lastName:response.lastName, 
@@ -26,9 +25,10 @@ export const createUser = async (userObj) => {
                         createdAt: res.createdAt,
                         updatedAt: res.updatedAt
                     }
-                    return {
-                        userData, userActivationRes
-                    }
+                    
+    return {
+        userData, userActivationRes
+    }
 
       
     // const response = await User.create(userObj)
@@ -42,10 +42,8 @@ export const createUser = async (userObj) => {
     // return {status: 'Success', userResponse}
       
     } catch (error) {
-        const dbError = JSON.parse(JSON.stringify(error))
-        Responses.setError(dbError.parent.errno, dbError);
-        Responses.send(res)
-        // return new ErrorResponse('error.errors[0]', 500)
+        
+        throw new Error('Error from database')
     }
 }
 
