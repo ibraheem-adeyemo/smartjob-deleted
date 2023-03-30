@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class PostJobReview extends Model {
+  class Review extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,17 +11,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      PostJobReview.belongsTo(models.Job)
+      Review.belongsTo(models.User)
     }
   }
-  PostJobReview.init({
+  Review.init({
     experience: DataTypes.ENUM(['good','bad','satisfactory','excellent','very worst','extremely worst', 'very satisfactory']),
     unprovidedInfo: DataTypes.TEXT,
     futureEngagement: DataTypes.ENUM(['very likely', 'likely', 'not likely', 'very unlikely']),
-    reccomendation: DataTypes.ENUM(['reccomended', 'notreccomended'])
+    reccomendation: DataTypes.ENUM(['reccomended', 'notreccomended']),
+    comment: {
+        type: DataTypes.TEXT
+      },
+      ratings: {
+        type: DataTypes.INTEGER
+      },
   }, {
     sequelize,
-    modelName: 'PostJobReview',
+    modelName: 'Review',
   });
-  return PostJobReview;
+  return Review;
 };

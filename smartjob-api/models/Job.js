@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       Job.belongsToMany(models.Tag, {
         through: 'job_tags'
       })
-      Job.hasMany(models.PostJobReview)
+    //   Job.hasMany(models.PostJobReview)
       Job.hasOne(models.address, {
         foreignKey:'jobId',
         targetKey:'id',

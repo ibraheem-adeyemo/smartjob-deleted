@@ -32,6 +32,12 @@ module.exports = {
         allowNull:true,
         unique: true
       },      
+      credibility: {
+        allowNull: false,
+        type: Sequelize.ENUM,
+        values: ['banned', 'active', 'susspend'],
+        default:'active'
+      },
       password: {
         allowNull: false,
         type: Sequelize.STRING

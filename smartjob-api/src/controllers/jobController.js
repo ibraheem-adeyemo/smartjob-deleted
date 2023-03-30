@@ -2,8 +2,10 @@ import Responses from "../utils/Responses"
 import { createAJobService, getAllJobsService } from "../services/jobServices";
 
 const createJobController = (req, res) => {
-    const reqBody = req.body
+    let reqBody = req.body
+    reqBody.images = req.file
     // const reqImg = req
+    
     console.log(reqBody, req.file)
     // createAJobService(reqBody);
     Responses.setSuccess(200, 'you just created a job');

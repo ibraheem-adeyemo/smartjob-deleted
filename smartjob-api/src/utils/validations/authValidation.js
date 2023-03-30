@@ -19,23 +19,16 @@ export const loginSchema = Joi.object().keys({
     email:email
 })
 
-// const validateName = (ctx, next) => {
-//     let errorMessage = ''
-//     if(ctx.value.trim().length < 2 ) {errorMessage = `${ctx.field} field should not less than 2 characters`}
-//     if('/\d/'.text(ctx.value)) {errorMessage = `${ctx.field} field should not contain a number`}
-//     return errorMessage ? next(new ErrorResponse(errorMessage, 400) ) : ''
-// }
-
-// const validateEmail = (ctx, next) => {
-//     let errorMessage = ''
-//     if(ctx.value) {}
-// }
-
-// const authValidation = (type, ctx, next) => {
-//     switch (type) {
-//         case value:
-//            return validateName(ctx, next)    
-//         default:
-//             break;
-//     }
-// }
+export const createJobSchema = Joi.object().keys({
+    title: Joi.string().min(12).max(250).required(),
+    description: Joi.string().required(),
+    location: Joi.string().min(10),
+    longitude:Joi.number().float(),
+    latitude:Joi.number().float(),
+    expertLeve:Joi.string().required(),
+    images: Joi.string().required(),
+    contractType:Joi.string().required(),
+    status:Joi.string().required(),
+    numberOfWorkers:Joi.number().integer(),
+    budgetFor:Joi.string().required()
+})

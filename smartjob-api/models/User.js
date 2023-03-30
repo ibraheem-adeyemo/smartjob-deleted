@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete:'CASCADE'
       })
       User.belongsToMany(models.Contract, {through: 'contract_user'})
+      User.hasMany(models.Review)
     }
 
     async matchPassword (enteredPassword) {

@@ -14,7 +14,7 @@ module.exports = {
     */
     await queryInterface.bulkInsert('services', [{
         title:'Casual job',
-        description: 'I provide a professional casual job. I carryout my service by ensure safety of your property, mine as well as the other stakeholder, and in such away that ensure transparency without giving room for over charges or under charges. you will be glad that you employ me.',
+        description: 'I provide a professional casual job. I carryout my service by ensure safety of your property, my safety as well as the other stakeholder, and in such away that ensure transparency without giving room for over charges or under charges. you will be glad that you employ me.',
         location:'Okeresi in Ede south',
         expertLeve:'expert',
         banners:'images.jpg',

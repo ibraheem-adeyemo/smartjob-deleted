@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('PostJobReviews', {
+    await queryInterface.createTable('Reviews', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,6 +21,12 @@ module.exports = {
       reccomendation: {
         type: Sequelize.ENUM(['reccomended', 'notreccomended'])
       },
+      comment: {
+        type: Sequelize.TEXT
+      },
+      ratings: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -32,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('PostJobReviews');
+    await queryInterface.dropTable('Reviews');
   }
 };

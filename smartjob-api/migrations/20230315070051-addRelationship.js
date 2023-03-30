@@ -119,7 +119,7 @@ module.exports = {
                 },
                 allowNull:true
             },{transaction}),
-            queryInterface.addColumn('PostJobReviews', 'jobId', {
+            queryInterface.addColumn('Reviews', 'jobId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
