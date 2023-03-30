@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class kyc extends Model {
+  class Profile extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,19 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Profile.belongsTo(models.User)
     }
   }
-  kyc.init({
-    NINNumber: DataTypes.STRING,
-    votersCard: DataTypes.STRING,
-    utilityBill: DataTypes.STRING,
-    isKycVerified: {
-        type: DataTypes.BOOLEAN,
-        defaultValue:false
-      },
+  Profile.init({
+    accountNumber: DataTypes.STRING,
+    bankName: DataTypes.STRING,
+    isAccountVerified: {
+        type:DataTypes.boolean,
+        defaultValue: false
+    }
   }, {
     sequelize,
-    modelName: 'kyc',
+    modelName: 'profile',
   });
-  return kyc;
+  return Profile;
 };

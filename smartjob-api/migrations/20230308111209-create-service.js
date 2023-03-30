@@ -49,7 +49,7 @@ module.exports = {
         values: ['available','notavailable']
       },
     //   service charge will be removed and the buyers will request for quotation
-      servicecharge: {
+      serviceCharge: {
         type: Sequelize.INTEGER
       },
       createdAt: {

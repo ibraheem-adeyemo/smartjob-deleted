@@ -2,28 +2,32 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('UserActivations', {
+    await queryInterface.createTable('profiles', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      hashedSecret: {
-        type: Sequelize.TEXT
-      },
-      userId: {
-        type: Sequelize.INTEGER,
+      UserId: {
+        type:Sequelize.INTEGER,
         references: {
             model: {
                 tableName:'Users'
             },
-            key:'id'
+            key: 'id'
         }
       },
-      expiredOn: {
-        type: Sequelize.DATE
+      accountNumber: {
+        type: Sequelize.STRING
       },
+      bankName: {
+        type: Sequelize.STRING
+      },
+      isAccountVerified: {
+        type:Sequelize.BOOLEAN,
+        defaultValue: false
+        },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -35,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('UserActivations');
+    await queryInterface.dropTable('profiles');
   }
 };

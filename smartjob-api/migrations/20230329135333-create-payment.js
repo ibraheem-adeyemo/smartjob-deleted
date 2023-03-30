@@ -16,13 +16,31 @@ module.exports = {
         type: Sequelize.FLOAT
       },
       paidBy: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+            model: {
+                tableName:'Users'
+            },
+            key:'id'
+        }
       },
       paidFor: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+            model: {
+                tableName:'services'
+            },
+            key:'id'
+        }
       },
       paidTo: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+            model: {
+                tableName:'Users'
+            },
+            key:'id'
+        }
       },
       createdAt: {
         allowNull: false,

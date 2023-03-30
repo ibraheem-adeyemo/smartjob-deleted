@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'serviceId',
         targetKey:'id',
         onDelete: 'CASCADE'
-      })
+      }),
+      Service.hasMany(models.Payment)
     }
   }
   Service.init({
@@ -71,8 +72,8 @@ module.exports = (sequelize, DataTypes) => {
         type:DataTypes.ENUM,
         values: ['available','notavailable']
       },
-      servicecharge: {
-        type: DataTypes.RANGE(DataTypes.DOUBLE)
+      serviceCharge: {
+        type: DataTypes.INTEGER
       },
   }, {
     sequelize,

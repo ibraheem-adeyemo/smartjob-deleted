@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
       })
       User.belongsToMany(models.Contract, {through: 'contract_user'})
       User.hasMany(models.Review)
+      User.hasMany(models.Payment)
+      User.hasOne(models.Profile)
     }
 
     async matchPassword (enteredPassword) {

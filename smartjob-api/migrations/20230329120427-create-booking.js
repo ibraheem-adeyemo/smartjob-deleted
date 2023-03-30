@@ -22,12 +22,23 @@ module.exports = {
         values:['started','done','settled','canceled','pending'],
         defaultValue:'pending'
       },
-    //   bookedBy: {
-    //     type: Sequelize.INTEGER
-    //   },
-    //   bookedFor: {
-    //     type: Sequelize.INTEGER
-    //   },
+      bookedBy: {
+        type: Sequelize.INTEGER,
+        references: {
+            model:{
+                tableName:'Users'
+            },
+            key:'id'
+        }
+      },
+      bookedFor: {
+        type: Sequelize.INTEGER,
+        references: {
+            model:{
+                tableName:'services'
+            }
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
