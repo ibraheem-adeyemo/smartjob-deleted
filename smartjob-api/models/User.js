@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING
       },
       phoneNumber: {
-        allowNull: false,
+        allowNull: true,
         type: 'VARCHAR(22)'
       },
       

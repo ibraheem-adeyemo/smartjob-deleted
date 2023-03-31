@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { CourierClient } from '@trycourier/courier'
 import { constStrings } from '../constants';
+import fast2sms from 'fast-two-sms'
 
 require('dotenv').config();
 
@@ -33,6 +34,7 @@ export const hashPassword = async (password) => {
 }
 
 export const generateToken = (payload, jwtSecret=secret) => {
+    console.log(payload)
     const token = jwt.sign(payload, jwtSecret, {
         expiresIn: '1hr'
     })
@@ -45,6 +47,7 @@ export const verifyToken = (token, jwtSecret=secret) => {
 }
 
 export const sendEmail = async (transport, emailData) => {
+    
   try {
     const emailRes = await transport.sendMail({
         from: `"Smartract "<${senderEmail}>`, // sender address
@@ -52,45 +55,87 @@ export const sendEmail = async (transport, emailData) => {
         subject: `${emailData.subject}`, // Subject line
         html: `${emailData.body}`
       });
+    
   } catch (error) {
     console.log(JSON.parse(JSON.stringify(error)));
   }
 }
 
+export const generateOTP = (num) => {
+    const digits = "0123456789"
+    let OTP = ""
+    for(let i=0; i<num; i++) {
+        OTP += digits[Math.floor(Math.random() * 10)]
+    }
+    return OTP;
+}
+
+export const sendOTP = async ({message, phoneNum}, next) => {
+    try {
+        const res = await fast2sms.sendMessage({
+            authorization: FAST2SMS,
+            message,
+            numbers: [phoneNum],
+        })
+    } catch(err) {
+        next(err)
+    }
+}
+
+const axios = require("axios");
+
+export const sendSmsOtp = ({phoneNumber, OTP}, next) => {
+    const options = {
+        method: 'POST',
+        url: 'https://telesign-telesign-send-sms-verification-code-v1.p.rapidapi.com/sms-verification-code',
+        params: {phoneNumber, verifyCode: OTP},
+        headers: {
+          'X-RapidAPI-Key': '97eb79dd42msh6b6bc90100c030bp1fa18fjsn4f65ce394f0e',
+          'X-RapidAPI-Host': 'telesign-telesign-send-sms-verification-code-v1.p.rapidapi.com'
+        }
+      };
+      
+      axios.request(options).then(function (response) {
+          console.log(response.data);
+      }).catch(function (error) {
+          console.error(error);
+          next(error)
+      });
+}
+
+
 export const transporter = () => nodemailer.createTransport({
-//   host: 'gmail.com',
-//   port: 587,
-//   secure: false,
-//   requireTLS: true,
-//   auth: {
-//     user: senderEmail,
-//     pass: passwd
-//   },
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  requireTLS: true,
+  auth: {
+    user: 'onlinelamu@gmail.com', //senderEmail,
+    pass: 'bggglzoclzifekpx' //passwd
+  },
 //   tls: {
 //     rejectUnauthorized: false
 //   }
-host: "sandbox.smtp.mailtrap.io",
-  port: 2525,
-  auth: {
-    user: mailTrapUser,
-    pass: mailTrapPassword
-  }
+//   host: "sandbox.smtp.mailtrap.io",
+//   port: 2525,
+//   auth: {
+//     user: mailTrapUser,
+//     pass: mailTrapPassword
+//   }
 });
 
 export const composeVerificationMail = (emailData, mailType) => {
     
-    const { recipientEmail, hashedSecret, userId, host, userFullName } = emailData
+    const { recipientEmail, otp, userId, host, userFullName } = emailData
     
     switch (mailType) {
-        case constStrings.verifyUser:
+        case constStrings.verifyEmail:
             return {
                 recipientEmail: `${recipientEmail}`,
                 subject: 'Email verification',
                 body: `<div>
-                  Hi ${userFullName} Thank you for signing up. <br/> Please click on the below link to activate your account.<br/>
-                  <a href='${hostUrl}/api/v1/users/verifyUser?hashedSecret=${hashedSecret}&email=${recipientEmail}&id=${userId}'>Verify Your Email</a> <br/>
-          
-                  See you soon. Thank you.
+                  Hi ${userFullName} Thank you for Creating an account on SMARTRACT. <br/> continue your registration by copy and paste the OTP below.<br/>
+                  your OTP is ${otp}
                   </div>`
               };
         case constStrings.forgetPassword:

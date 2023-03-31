@@ -11,10 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      UserActivation.belongsTo(models.User)
     }
   }
   UserActivation.init({
-    hashedSecret: DataTypes.TEXT,
+    otp: DataTypes.STRING,
     userId: DataTypes.INTEGER,
     expiredOn: DataTypes.DATE
   }, {

@@ -24,7 +24,6 @@ module.exports = {
       },
       isVerified: {
         type:Sequelize.BOOLEAN,
-        allowNull: false,
         defaultValue: false
       },
       username: {
@@ -33,7 +32,6 @@ module.exports = {
         unique: true
       },      
       credibility: {
-        allowNull: false,
         type: Sequelize.ENUM,
         values: ['banned', 'active', 'susspend'],
         default:'active'
@@ -43,7 +41,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       phoneNumber: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
       },
       createdAt: {

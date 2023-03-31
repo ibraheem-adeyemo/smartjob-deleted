@@ -4,9 +4,11 @@ import { signupController,
         verifyUserController, 
         resendVerificationLinkController,
         forgetPasswordController,
-        resetPasswordController
+        resetPasswordController,
+        verifyOTPController,
+        registerPhoneNumberController
      } from '../controllers/userController';
-import { isUserExist } from '../middlewares/authMiddleware';
+import { isUserExist, isAuthenticated } from '../middlewares/authMiddleware';
 
 const userRoute = express.Router()
 
@@ -16,5 +18,7 @@ userRoute.post('/users/forgetPassword', forgetPasswordController)
 userRoute.post('/users/resetPassword/:id/:token', resetPasswordController)
 userRoute.get('/users/resendEmailVerificationLink', resendVerificationLinkController)
 userRoute.get('/users/verifyUser', verifyUserController)
+userRoute.post('/users/verifyEmailOtp', isAuthenticated, verifyOTPController)
+userRoute.post('/users/registerPhoneNumber', isAuthenticated, registerPhoneNumberController)
 
 export default userRoute;

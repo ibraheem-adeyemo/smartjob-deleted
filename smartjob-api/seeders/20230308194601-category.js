@@ -12,8 +12,8 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   const categories = ['plumbing','electrical','cleaning','casual','assistance','painting','engineering','cook','attendant','teaching', 'professional', 'skilled', 'shoe making', 'brick laying','architecture','funiture','carpentring']
-    await queryInterface.bulkInsert('Categories', [...categories.map(cat => ({name:cat, createdAt: new Date(),updatedAt: new Date()}))])
+//    const categories = ['plumbing','electrical','cleaning','casual','assistance','painting','engineering','cook','attendant','teaching', 'professional', 'skilled', 'shoe making', 'brick laying','architecture','funiture','carpentring']
+//     await queryInterface.bulkInsert('Categories', [...categories.map(cat => ({name:cat, createdAt: new Date(),updatedAt: new Date()}))])
   },
 
   async down (queryInterface, Sequelize) {

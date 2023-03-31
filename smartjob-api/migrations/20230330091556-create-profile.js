@@ -24,10 +24,18 @@ module.exports = {
       bankName: {
         type: Sequelize.STRING
       },
+      userImage: {
+        type:Sequelize.STRING,
+        allowNull:true
+      },
       isAccountVerified: {
         type:Sequelize.BOOLEAN,
         defaultValue: false
         },
+    isPhoneNumberVerified:{
+        type:Sequelize.BOOLEAN,
+        defaultValue:false
+    },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
