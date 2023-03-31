@@ -60,6 +60,9 @@ export const findUserByEmail = (email) => {
     return User.findOne({ where:{email}})
 }
 
+export const addOTPtoDB = (otp, userId, expiredOn=Date.now()+21600000) => {
+    return UserActivation.create({otp, userId, expiredOn});
+}
 export const udpdateUser = async (email) => {
     return User.update(
         {isVerified: true},

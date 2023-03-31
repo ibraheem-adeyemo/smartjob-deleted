@@ -10,16 +10,30 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING
+      },
+      workId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: {
+                tableName:'Works'
+            },
+            key: 'id'
+        }
       },
       description: {
         allowNull: false,
         type: Sequelize.TEXT
       },
       location: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        references: {
+            model: {
+                tableName: 'addresses'
+            },
+            key:'id'
+        }
       },
       expertLeve: {
         allowNull: false,

@@ -61,9 +61,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING
       },
+      credibility: {
+        type: DataTypes.ENUM,
+        values: ['banned', 'active', 'susspend'],
+        defaultValue:'active'
+      },
       phoneNumber: {
-        allowNull: false,
-        type: 'VARCHAR(22)'
+        allowNull: true,
+        type: DataTypes.STRING
       },
       
   }, {

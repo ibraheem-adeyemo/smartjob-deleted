@@ -18,12 +18,16 @@ module.exports = (sequelize, DataTypes) => {
     accountNumber: DataTypes.STRING,
     bankName: DataTypes.STRING,
     isAccountVerified: {
-        type:DataTypes.boolean,
+        type:DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    isPhoneNumberVerified:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false
     }
   }, {
     sequelize,
-    modelName: 'profile',
+    modelName: 'Profile',
   });
   return Profile;
 };

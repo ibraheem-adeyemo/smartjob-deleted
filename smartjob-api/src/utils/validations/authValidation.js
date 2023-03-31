@@ -10,9 +10,11 @@ export const authSchema = Joi.object().keys({
     lastName:name.min(2).max(30).label('lastname is required, must be alphabets only and have at least 2 characters'),
     password:password,
     email:email,
-    phoneNumber:Joi.string().regex(/^\+(?:[0-9] ?){6,14}[0-9]$/).required().label('PhoneNumber is required, and should follow this format: +234 70 0000000')
-
+    username: Joi.string().trim().min(3)
 })
+
+export const phoneNumber = Joi.string().regex(/^\+(?:[0-9] ?){6,14}[0-9]$/).required().label('PhoneNumber is required, and should follow this format: +234 70 0000000')
+     
 
 export const loginSchema = Joi.object().keys({
     password:password,
@@ -23,8 +25,8 @@ export const createJobSchema = Joi.object().keys({
     title: Joi.string().min(12).max(250).required(),
     description: Joi.string().required(),
     location: Joi.string().min(10),
-    longitude:Joi.number().float(),
-    latitude:Joi.number().float(),
+    longitude:Joi.number(),
+    latitude:Joi.number(),
     expertLeve:Joi.string().required(),
     images: Joi.string().required(),
     contractType:Joi.string().required(),

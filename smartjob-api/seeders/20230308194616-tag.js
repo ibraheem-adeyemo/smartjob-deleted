@@ -13,8 +13,8 @@ module.exports = {
      * }], {});
     */
 
-    const tags = ['casual','professional','daily','contract','job']
-    await queryInterface.bulkInsert('tags', [...tags.map(tag => ({name:tag, createdAt: new Date(),updatedAt: new Date()}))])
+    // const tags = ['casual','professional','daily','contract','job']
+    // await queryInterface.bulkInsert('tags', [...tags.map(tag => ({name:tag, createdAt: new Date(),updatedAt: new Date()}))])
   },
 
   async down (queryInterface, Sequelize) {

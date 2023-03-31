@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'bookingHistory',
+    modelName: 'BookingHistory',
   });
   return BookingHistory;
 };

@@ -32,15 +32,17 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE'
       }),
       Service.hasMany(models.Payment)
+      Service.belongsTo(models.Work)
     }
   }
   Service.init({
+    // You will have to remove the title
     title: {
         allowNull: false,
         type: DataTypes.STRING
       },
       description: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.TEXT
       },
       location: {
