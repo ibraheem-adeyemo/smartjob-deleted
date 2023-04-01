@@ -79,7 +79,7 @@ const signupController = async (req, res, next) => {
         // sendSmsOtp({phoneNumber:user.phoneNumber, OTP:`Your OTP is ${OTP}`}, next)
             
         // const courierRes = await courierMailSender({name:'', recipien: userEmail, content: composeCourierVerificationMail(userEmail, host, token)})
-        Responses.setSuccess(201,msg, {jwtToken, data: user});
+        Responses.setSuccess(201,msg, {jwtToken, data: {...user.dataValues, password:''}});
         Responses.send(res)  
     } catch (error) {
         // const {code, errno} = JSON.parse(JSON.stringify(error)).parent
@@ -142,8 +142,9 @@ const verifyOTPController = async (req, res, next) => {
         await User.update(
             {isVerified:true},
             {where:{id:user.id}})
+        let updatedUser = await User.findByPk(user.id)
         const jwtToken = generateToken({email:user.email, id:user.id})
-        Responses.setSuccess(201,EMAIL_VERIFIED_SUCCESSFULLY, {jwtToken, data: user})
+        Responses.setSuccess(201,EMAIL_VERIFIED_SUCCESSFULLY, {jwtToken, data: {...updatedUser.dataValues, password:''}})
         Responses.send(res)
     } catch (error) {
         next({message:constStrings.databaseError, statusCode:500})

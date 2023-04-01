@@ -15,6 +15,7 @@ jobRoute.get('/getAllJobs/:searchTerm', getAllJobsController)
 jobRoute.get('/job/id', getASingleJobController)
 jobRoute.put('/editJob', editJobController)
 jobRoute.delete('/deleteJob/:id', deleteJobController)
+jobRoute.get()
 
 
 export default jobRoute;
