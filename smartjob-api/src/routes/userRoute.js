@@ -6,10 +6,16 @@ import { signupController,
         forgetPasswordController,
         resetPasswordController,
         verifyOTPController,
+<<<<<<< HEAD
         registerPhoneNumberController,
         verifyPhoneController
      } from '../controllers/userController';
 import { isUserExist, isAuthenticated, isPhoneNumberAlreadyExist } from '../middlewares/authMiddleware';
+=======
+        registerPhoneNumberController
+     } from '../controllers/userController';
+import { isUserExist, isAuthenticated } from '../middlewares/authMiddleware';
+>>>>>>> 3a56928751488b47c5362719c11214b7498a4b91
 
 const userRoute = express.Router()
 
