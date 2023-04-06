@@ -12,6 +12,8 @@ import { debug } from 'console';
 import sequelize from './utils/database';
 import serviceRoute from './routes/serviceRoute';
 import { errorHandler } from './middlewares/errorHandlers';
+import workRoute from './routes/workRoute';
+import addressRoute from './routes/addressRoute';
 
 
 const app = express();
@@ -45,6 +47,8 @@ const apiVersion = '/api/v1'
 app.use(apiVersion, userRoute)
 app.use(apiVersion, jobRoute)
 app.use(apiVersion, serviceRoute)
+app.use(apiVersion, workRoute)
+app.use(apiVersion, addressRoute)
 
 app.get('/', (req, res) => {
     Responses.setSuccess(200, 'Welcome to your smart job portal');

@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         through: 'job_tags'
       })
     //   Job.hasMany(models.PostJobReview)
-      Job.hasOne(models.address, {
+      Job.hasOne(models.Address, {
         foreignKey:'jobId',
         targetKey:'id',
         onDelete: 'CASCADE'

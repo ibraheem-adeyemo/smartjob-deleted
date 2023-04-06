@@ -9,15 +9,16 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        allowNull: true,
-        type: Sequelize.STRING
-      },
+    //   title is removed because of the work id being specified
+    //   title: {
+    //     allowNull: true,
+    //     type: Sequelize.STRING
+    //   },
       workId: {
         type: Sequelize.INTEGER,
         references: {
             model: {
-                tableName:'Works'
+                tableName:'works'
             },
             key: 'id'
         }
@@ -35,7 +36,7 @@ module.exports = {
             key:'id'
         }
       },
-      expertLeve: {
+      expertLevel: {
         allowNull: false,
         type: Sequelize.ENUM,
         values: ['beginner', 'intermediate', 'advance', 'expert']
@@ -55,16 +56,23 @@ module.exports = {
       // you may need to change the service type to array 
     //   or you may need to incled all
       serviceType: {
-        type:Sequelize.ENUM,
-        values: ['all','hourly', 'daily', 'weekly', 'biweekly', 'monthly', 'contract', 'fulltime']
+        type:Sequelize.INTEGER,
+        // values: ['all','hourly', 'daily', 'weekly', 'biweekly', 'monthly', 'contract', 'fulltime']
       },
       status: {
         type:Sequelize.ENUM,
         values: ['available','notavailable']
       },
     //   service charge will be removed and the buyers will request for quotation
-      serviceCharge: {
-        type: Sequelize.INTEGER
+    // ======Service charge is removed because there is table for charges where a user can have multiple charges for a service======
+      serviceCharges: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: {
+                tableName: 'charges'
+            },
+            key:'id'
+        }
       },
       createdAt: {
         allowNull: false,

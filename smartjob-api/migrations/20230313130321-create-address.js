@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull:false
       },
-      municipality: {
+      area: {
         type: Sequelize.STRING
       },
       street: {
@@ -30,6 +30,14 @@ module.exports = {
       houseNumber: {
         type: Sequelize.STRING
       },
+      location: {
+        type:Sequelize.GEOMETRY('POINT', 4326),
+        allowNull:false
+    },
+    coordinate: {
+        type:Sequelize.STRING,
+        allowNull:false
+    },
       longitude: {
         type: Sequelize.FLOAT,
         allowNull:false

@@ -12,17 +12,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Address.belongsTo(models.User,{
-        foreignKey:'addressId',
+        foreignKey:'userId',
         targetKey:'id',
         onDelete: 'CASCADE'
       })  
       Address.belongsTo(models.Service, {
-        foreignKey:'addressId',
+        foreignKey:'serviceId',
         targetKey:'id',
         onDelete: 'CASCADE'
       })
       Address.belongsTo(models.Job, {
-        foreignKey:'addressId',
+        foreignKey:'jobId',
         targetKey:'id',
         onDelete: 'CASCADE'
       })  
@@ -44,6 +44,15 @@ module.exports = (sequelize, DataTypes) => {
     municipality: DataTypes.STRING,
     street: DataTypes.STRING,
     houseNumber: DataTypes.STRING,
+    location: {
+        type:DataTypes.GEOMETRY('POINT', 4326),
+        allowNull:false
+    },
+    coordinate: {
+        type:DataTypes.STRING,
+        allowNull:false
+    },
+    // I will have to remove longitude and latitude
     longitude: {
         type:DataTypes.FLOAT,
         allowNull: false
@@ -51,10 +60,19 @@ module.exports = (sequelize, DataTypes) => {
     latitude: {
         type:DataTypes.FLOAT,
         allowNull: false
+    },
+    userId: {
+        type:DataTypes.INTEGER
+    },
+    serviceId: {
+        type:DataTypes.INTEGER
+    },
+    jobId: {
+        type:DataTypes.INTEGER
     }
   }, {
     sequelize,
-    modelName: 'address',
+    modelName: 'Address',
   });
   return Address;
 };

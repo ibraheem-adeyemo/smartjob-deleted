@@ -16,40 +16,45 @@ module.exports = (sequelize, DataTypes) => {
         targetKey:'id',
         onDelete: 'CASCADE'
       })
-      Service.hasOne(models.ServiceHistory, {
-        foreignKey: 'serviceId',
-        targetKey: 'id'
-      })
+    //   Service.hasOne(models.ServiceHistory, {
+    //     foreignKey: 'serviceId',
+    //     targetKey: 'id'
+    //   })
       Service.belongsToMany(models.Category, {
         through: 'service_categories'
       })
       Service.belongsToMany(models.Tag, {
         through: 'service_tags'
       })
-      Service.hasOne(models.address, {
+      Service.hasOne(models.Address, {
         foreignKey:'serviceId',
         targetKey:'id',
         onDelete: 'CASCADE'
       }),
       Service.hasMany(models.Payment)
       Service.belongsTo(models.Work)
+      Service.hasMany(models.Charges)
+      Service.hasMany(models.ServiceType)
     }
   }
   Service.init({
     // You will have to remove the title
-    title: {
-        allowNull: false,
-        type: DataTypes.STRING
+    // title: {
+    //     allowNull: false,
+    //     type: DataTypes.STRING
+    //   },
+      workId: {
+        type: DataTypes.INTEGER
       },
       description: {
         allowNull: true,
         type: DataTypes.TEXT
       },
       location: {
-        allowNull: false,
-        type: DataTypes.STRING
+        allowNull: true,
+        type: DataTypes.INTEGER
       },
-      expertLeve: {
+      expertLevel: {
         allowNull: false,
         type: DataTypes.ENUM,
         values: ['beginner', 'intermediate', 'advance', 'expert']
@@ -66,15 +71,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         type: DataTypes.STRING
       },
+    //   you will remove the service type there will be a foreign on service type table references service
       serviceType: {
-        type:DataTypes.ENUM,
-        values: ['hourly', 'daily', 'weekly', 'biweekly', 'monthly', 'contract', 'fulltime']
+        type:DataTypes.INTEGER,
+        // values: ['hourly', 'daily', 'weekly', 'biweekly', 'monthly', 'contract', 'fulltime']
       },
       status: {
         type:DataTypes.ENUM,
         values: ['available','notavailable']
       },
-      serviceCharge: {
+      serviceCharges: {
         type: DataTypes.INTEGER
       },
   }, {
