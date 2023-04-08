@@ -14,7 +14,9 @@ import { PHONE_ALREADY_EXISTS_ERR,
      EMAIL_ALREADY_EXIST,
      EMAIL_VERIFIED_SUCCESSFULLY,
      ACCOUNT_HAS_ALREADY_VERIFIED,
-     PHONE_OTP_SENT } from '../constants'
+     PHONE_OTP_SENT, ACCOUNT_HAS_NOT_BEEN_VERIFIED,
+     EMAIIL_CAN_NOT_BE_FOUND,
+     INCORECT_OTP } from '../constants'
 
 const signupController = async (req, res, next) => {
     try {
@@ -102,6 +104,10 @@ const loginController = async (req, res, next) => {
 
         
         const userRes = await login(userObj)
+
+        if(!userRes.isVerified) {
+            return next({statusCode:400, message:ACCOUNT_HAS_NOT_BEEN_VERIFIED})
+        }
         
         const token = generateToken({id: userRes.id, email:userRes.email})
         const data = {
@@ -147,7 +153,8 @@ const verifyOTPController = async (req, res, next) => {
         Responses.setSuccess(201,EMAIL_VERIFIED_SUCCESSFULLY, {jwtToken, data: {...updatedUser.dataValues, password:''}})
         Responses.send(res)
     } catch (error) {
-        next({message:constStrings.databaseError, statusCode:500})
+        // console.log(error, '=======@@@@@@')
+        next({message:error.message, statusCode:500})
     }
 }
 
@@ -197,6 +204,48 @@ const verifyUserController = async (req, res, next) => {
         
     } catch (error) {
         
+        next({message:error.message, statusCode:401})
+    }
+}
+
+const resendEmailVerificationOTP = async (req, res, next) => {
+    try {
+        const { host } = req.headers;
+        const {email} = req.body
+
+        const user = await User.findOne({where:{email}})
+
+        if(!user || user.email !== email) {
+            return next({statusCode:404, message: EMAIIL_CAN_NOT_BE_FOUND})
+        }
+
+        UserActivation.destroy({where:{userId:user.id}})
+
+        const jwtToken = generateToken({email:user.email, id:user.id})
+
+        const OTP = generateOTP(6)
+
+        const activation = await  addOTPtoDB(OTP, user.id)
+
+        const otp = activation.otp
+        const userEmail = user.email
+        const userId = user.id
+
+        const emailData = {
+            recipientEmail:userEmail,
+            otp,
+            userId,
+            host,
+            userFullName:`${user.firstName} ${user.lastName}`
+        }
+        
+        const {msg, verifyEmail} = constStrings
+        sendMail(emailData, verifyEmail);
+
+        Responses.setSuccess(201,msg, {token:jwtToken});
+        Responses.send(res)
+    } catch (error) {
+        console.log(error)
         next({message:error.message, statusCode:401})
     }
 }
@@ -306,5 +355,6 @@ export {
     resetPasswordController,
     verifyOTPController,
     registerPhoneNumberController,
-    verifyPhoneController
+    verifyPhoneController,
+    resendEmailVerificationOTP
 }

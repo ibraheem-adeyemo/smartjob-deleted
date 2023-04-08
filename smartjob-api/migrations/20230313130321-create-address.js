@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull:false
       },
-      area: {
+      subUrb: {
         type: Sequelize.STRING
       },
       street: {
@@ -32,6 +32,10 @@ module.exports = {
       },
       location: {
         type:Sequelize.GEOMETRY('POINT', 4326),
+        allowNull:false
+    },
+    location_m: {
+        type:Sequelize.GEOMETRY('POINT', 3857),
         allowNull:false
     },
     coordinate: {

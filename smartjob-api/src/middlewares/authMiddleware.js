@@ -5,7 +5,8 @@ import Responses from '../utils/Responses';
 import { PHONE_ALREADY_EXISTS_ERR,
     AUTH_HEADER_MISSING_ERR, 
     AUTH_TOKEN_MISSING_ERR,
-    USER_NOT_FOUND_ERR } from '../constants'
+    USER_NOT_FOUND_ERR,
+    ACCOUNT_HAS_NOT_BEEN_VERIFIED } from '../constants'
 
 export const isUserExist = async (req, res, next) => {
     const {email } = req.body
@@ -26,7 +27,7 @@ export const isLoggedIn = async (req, res, next) => {
         const payload = verifyToken(authorization.split(' ')[1])
 
         if(payload.email) {
-            const userRes = await User.findByPK(payload.id);
+            const userRes = await User.findByPK(payload.id);            
             if(payload.email === userRes.email) {
                 req.userObj = userRes
 
@@ -38,6 +39,17 @@ export const isLoggedIn = async (req, res, next) => {
     } catch (error) {
         Responses.setError(401, 'Token has expired or invalid')
         Responses.send(res)
+    }
+}
+
+export const isUserVerified = async (req, res, next) => {
+    try {
+        const { authorization } = req.headers
+    
+        const payload = verifyToken(authorization.split(' ')[1])
+
+    } catch (error) {
+       console.log(error) 
     }
 }
 
@@ -67,10 +79,27 @@ export const isAuthenticated = async (req, res, next) => {
         if(!user) {
             next({status:404, message:USER_NOT_FOUND_ERR})
             return
+        }   
+        if(!user.isVerified) {
+            return next({statusCode:400, message:ACCOUNT_HAS_NOT_BEEN_VERIFIED})
         }
         res.locals.user = user;
         next()
 
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const isEmailVerified = async (req, res, next) => {
+    try {
+        const {email } = req.body
+        const user = await User.findOne({where:{email}})
+        
+        if(!user.isVerified) {
+            return next({statusCode:400, message:ACCOUNT_HAS_NOT_BEEN_VERIFIED})
+        }
+        next()
     } catch (error) {
         next(error)
     }

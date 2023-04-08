@@ -41,11 +41,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull:false
     },
-    municipality: DataTypes.STRING,
+    subUrb: DataTypes.STRING,
     street: DataTypes.STRING,
     houseNumber: DataTypes.STRING,
     location: {
         type:DataTypes.GEOMETRY('POINT', 4326),
+        allowNull:false
+    },
+    location_m: {
+        type:DataTypes.GEOMETRY('POINT', 3857),
         allowNull:false
     },
     coordinate: {

@@ -1,4 +1,4 @@
-import { User, UserActivation } from '../../models'
+import { User, UserActivation, Address } from '../../models'
 import { ErrorResponse } from '../utils/ErrorResponse'
 import { generateRandomString } from '../utils/function';
 
@@ -68,4 +68,9 @@ export const udpdateUser = async (email) => {
         {isVerified: true},
         {where: {email}}
     )
+}
+export const findUserAddress = async (userId) => {
+    return Address.findAll({
+        where: {userId}
+    })
 }
