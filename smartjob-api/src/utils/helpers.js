@@ -11,11 +11,11 @@ require('dotenv').config();
 const senderEmail = process.env.EMAIL;
 const secret = process.env.SECRET;
 const passwd = process.env.EMAIL_PASSWORD
-const eventId = process.env.COURIER_EVENT_ID
-const recipientId = process.env.COURIER_RECIPIENT_ID
-const authToken = process.env.AUTH_TOKEN
-const mailTrapUser = process.env.MAIL_TRAP_USER
-const mailTrapPassword = process.env.MAIL_TRAP_PASS
+// const eventId = process.env.COURIER_EVENT_ID
+// const recipientId = process.env.COURIER_RECIPIENT_ID
+const authToken = process.env.COURIER_AUTH_TOKEN
+// const mailTrapUser = process.env.MAIL_TRAP_USER
+// const mailTrapPassword = process.env.MAIL_TRAP_PASS
 const hostUrl = process.env.HOST_URL
 const nodeMailerHost = process.env.NODE_MAILER_HOST
 const smsAPIUrl = process.env.SMS_API_URL

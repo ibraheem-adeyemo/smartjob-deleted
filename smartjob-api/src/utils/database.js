@@ -7,13 +7,16 @@ import {debug} from 'console'
 //     dialect: 'mysql'
 // });
 
-const pswd = process.env.DEV_PASSWORD
-const host = process.env.DEV_HOST
+const dbPswd = process.env.DB_PASSWORD
+const dbHost = process.env.DB_HOST
+const dbName = process.env.DB_NAME
+const dbUser = process.env.DB_USER
+const dbDialect = process.env.DB_DIALECT
 
 // console.log(host,pswd)
-const sequelize = new Sequelize('smart_job', 'root', 'Password@11', {
-    host:'127.0.0.1',
-    dialect: 'mysql'
+const sequelize = new Sequelize(dbName, dbUser, dbPswd, {
+    host:dbHost,
+    dialect: dbDialect
 });
 
 const checkConnection = async ()=> {
