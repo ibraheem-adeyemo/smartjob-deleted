@@ -45,7 +45,7 @@ export const getNearestAddressController = async (req, res, next) => {
     } catch (error) {
         
     }
-}
+};
 
 export const updateAddressController = async (req, res, next) => {
     try {

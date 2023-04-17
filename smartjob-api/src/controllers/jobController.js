@@ -16,12 +16,12 @@ const getAllJobsController = async (req, res) => {
     try {
         const allJobs = await getAllJobsService()
         console.log(allJobs)
-        Responses.setSuccess(200, 'endpoint to get all jobs')
-        Responses.send(res)
+        Responses.setSuccess(200, 'endpoint to get all jobs');
+        Responses.send(res);
     } catch (error) {
-        console.log(error)
-        Responses.setError(500, 'error from the data base')
-        Responses.send(res)
+        console.log(error);
+        Responses.setError(500, 'error from the data base');
+        Responses.send(res);
     }
 }
 
