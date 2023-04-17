@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime": "^7.21.0",
     "@hapi/joi": "^17.1.1",
     "@trycourier/courier": "^4.2.0",
     "bcrypt": "^5.1.0",
