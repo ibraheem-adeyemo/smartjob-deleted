@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for smartjob-pi on 2023-04-24T08:01:48+01:00
+# fly.toml app configuration file generated for smartjob-api on 2023-04-24T13:52:20+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "smartjob-pi"
+app = "smartjob-api"
 primary_region = "jnb"
 
 [http_service]

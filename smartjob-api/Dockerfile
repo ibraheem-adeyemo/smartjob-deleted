@@ -1,19 +1,44 @@
-FROM node:16.19.0-slim
+# syntax = docker/dockerfile:1
 
-# Create app directory
-WORKDIR /usr/src/app
+# Adjust NODE_VERSION as desired
+ARG NODE_VERSION=14.19.3
+FROM node:${NODE_VERSION}-buster-slim as base
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+LABEL fly_launch_runtime="NodeJS"
 
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
+# NodeJS app lives here
+WORKDIR /app
 
-# Bundle app source
-COPY . .
+# Set production environment
+ENV NODE_ENV=production
 
-EXPOSE 8081
-CMD [ "npm", "start" ]
+
+# Throw-away build stage to reduce size of final image
+FROM base as build
+
+# Install packages needed to build node modules
+RUN apt-get update -qq && \
+    apt-get install -y python pkg-config build-essential 
+
+# Install node modules
+COPY --link package.json package-lock.json .
+RUN npm install --production=false
+
+# Copy application code
+COPY --link . .
+
+# Build application
+RUN npm run build
+
+# Remove development dependencies
+RUN npm prune --production
+
+
+# Final stage for app image
+FROM base
+
+# Copy built application
+COPY --from=build /app /app
+
+# Start the server by default, this can be overwritten at runtime
+CMD [ "npm", "run", "start" ]
