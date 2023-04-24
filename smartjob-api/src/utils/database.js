@@ -7,17 +7,25 @@ import {debug} from 'console'
 //     dialect: 'mysql'
 // });
 
-const dbPswd = process.env.DB_PASSWORD
+const dbPassword = process.env.DB_PASSWORD
 const dbHost = process.env.DB_HOST
+const dbPort = process.env.DB_PORT
 const dbName = process.env.DB_NAME
 const dbUser = process.env.DB_USER
-const dbDialect = process.env.DB_DIALECT
 
-// console.log(host,pswd)
-const sequelize = new Sequelize(dbName, dbUser, dbPswd, {
-    host:dbHost,
-    dialect: dbDialect
-});
+// const dbPswd = process.env.DB_PASSWORD
+// const dbHost = process.env.DB_HOST
+// const dbName = process.env.DB_NAME
+// const dbUser = process.env.DB_USER
+// const dbDialect = process.env.DB_DIALECT
+
+// // console.log(host,pswd)
+// let sequelize = new Sequelize(dbName, dbUser, dbPswd, {
+//     host:dbHost,
+//     dialect: dbDialect
+// });
+
+const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`)
 
 const checkConnection = async ()=> {
     try {

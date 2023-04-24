@@ -14,7 +14,7 @@ module.exports = {
     */
 
     const serviceTypes =  ['hourly', 'daily', 'weekly', 'biweekly', 'monthly', 'contract', 'fulltime']
-    await queryInterface.bulkInsert('service-types', [...serviceTypes.map(sevType => ({typeOfService:sevType, createdAt: new Date(),updatedAt: new Date()}))])
+    await queryInterface.bulkInsert('servicetypes', [...serviceTypes.map(sevType => ({typeOfService:sevType, createdAt: new Date(),updatedAt: new Date()}))])
   },
 
   async down (queryInterface, Sequelize) {

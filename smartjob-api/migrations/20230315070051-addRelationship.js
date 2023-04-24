@@ -20,7 +20,7 @@ module.exports = {
             //     values: ['active', 'completed', 'cancelled'],
             //     allowNull: false
             // },{transaction}),
-            queryInterface.addColumn('Addresses', 'userId', {
+            queryInterface.addColumn('addresses', 'userId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model:{
@@ -31,17 +31,17 @@ module.exports = {
                 },
                 allowNull:false
             },{transaction}),
-            queryInterface.addColumn('Addresses', 'serviceId', {
+            queryInterface.addColumn('addresses', 'serviceId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
-                        tableName: 'Services',
+                        tableName: 'services',
                         // schema: 'schema'
                     },
                     key:'id'
                 }
             },{transaction}),
-            queryInterface.addColumn('Addresses', 'jobId', {
+            queryInterface.addColumn('addresses', 'jobId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
@@ -52,7 +52,7 @@ module.exports = {
                 },
                 allowNull:true
             },{transaction}),
-            queryInterface.addColumn('jobs', 'userId', {
+            queryInterface.addColumn('Jobs', 'userId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
@@ -68,7 +68,7 @@ module.exports = {
                     type:Sequelize.DataTypes.INTEGER,
                     references: {
                         model: {
-                            tableName:'jobs'
+                            tableName:'Jobs'
                         },
                         key:'id'
                     },
@@ -78,7 +78,7 @@ module.exports = {
                     type:Sequelize.DataTypes.INTEGER,
                     references: {
                         model: {
-                            tableName:'categories'
+                            tableName:'Categories'
                         },
                         key:'id'
                     },
@@ -90,7 +90,7 @@ module.exports = {
                     type:Sequelize.DataTypes.INTEGER,
                     references: {
                         model: {
-                            tableName:'jobs'
+                            tableName:'Jobs'
                         },
                         key:'id'
                     },
@@ -108,12 +108,12 @@ module.exports = {
                 },
             },{transaction}),          
            
-            queryInterface.addColumn('jobs', 'addressId', {
+            queryInterface.addColumn('Jobs', 'addressId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
                         tableName:'addresses',
-                        // schema: 'schema'
+                        // schema: 'schema'addresses
                     },
                     key: 'id'
                 },
@@ -123,7 +123,7 @@ module.exports = {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
-                        tableName:'jobs',
+                        tableName:'Jobs',
                         // schema: 'schema'
                     },
                     key: 'id'
@@ -145,7 +145,7 @@ module.exports = {
                     type:Sequelize.DataTypes.INTEGER,
                     references: {
                         model: {
-                            tableName:'categories'
+                            tableName:'Categories'
                         },
                         key:'id'
                     },
@@ -167,7 +167,7 @@ module.exports = {
                     type:Sequelize.DataTypes.INTEGER,
                     references: {
                         model: {
-                            tableName:'users'
+                            tableName:'Users'
                         },
                         key:'id'
                     },
@@ -179,7 +179,7 @@ module.exports = {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
-                        tableName:'jobs',
+                        tableName:'Jobs',
                         // schema: 'schema'
                     },
                     key: 'id'
@@ -201,7 +201,7 @@ module.exports = {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
-                        tableName:'jobs',
+                        tableName:'Jobs',
                         // schema: 'schema'
                     },
                     key: 'id'
