@@ -20,12 +20,12 @@ const dbUser = process.env.DB_USER
 // const dbDialect = process.env.DB_DIALECT
 
 // // console.log(host,pswd)
-// let sequelize = new Sequelize(dbName, dbUser, dbPswd, {
-//     host:dbHost,
-//     dialect: dbDialect
-// });
+let sequelize = new Sequelize(process.env.DATABASE_URL, dbUser, dbPassword, {
+    host:'localhost',
+    dialect: 'postgres'
+});
 
-const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`)
+// const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`)
 
 const checkConnection = async ()=> {
     try {

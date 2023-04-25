@@ -12,7 +12,7 @@ const testDbPort = process.env.TEST_DB_PORT
 const testDbName = process.env.TEST_DB_NAME
 const testDbUser = process.env.TEST_DB_USER
 
-export const cofig = {
+module.exports = {
   development: {
     username: dbUser,
     password: dbPassword,
@@ -28,10 +28,10 @@ export const cofig = {
     dialect: dbDialect
   },
   production: {
-    username: dbUser,
-    password: dbPassword,
-    database: dbName,
-    host: dbHost,
-    dialect: dbDialect
+    username: '',
+    password: '',
+    database: process.env.DATABASE_URL,
+    host: '',
+    dialect: 'postgres'
   }
 }
