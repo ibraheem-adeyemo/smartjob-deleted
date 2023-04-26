@@ -20,8 +20,8 @@ const dbUser = process.env.DB_USER
 // const dbDialect = process.env.DB_DIALECT
 
 // // console.log(host,pswd)
-let sequelize = new Sequelize(process.env.DATABASE_URL, dbUser, dbPassword, {
-    host:'localhost',
+let sequelize = new Sequelize(dbName, dbUser, dbPassword, {
+    host:dbHost,
     dialect: 'postgres'
 });
 

@@ -89,7 +89,7 @@ const sync = async () => await sequelize.sync();
 sync()
 
 
-const server = app.listen(process.env.PORT||8080, ()=> {
+const server = app.listen(process.env.PORT||8080, "0.0.0.0", ()=> {
     debug(`Listen on port ${server.address().port}`)
 })
 

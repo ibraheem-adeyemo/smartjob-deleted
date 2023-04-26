@@ -28,10 +28,10 @@ module.exports = {
     dialect: dbDialect
   },
   production: {
-    username: '',
-    password: '',
-    database: process.env.DATABASE_URL,
-    host: '',
+    username: dbUser,
+    password: dbPassword,
+    database: dbName,
+    host: dbHost,
     dialect: 'postgres'
   }
 }
