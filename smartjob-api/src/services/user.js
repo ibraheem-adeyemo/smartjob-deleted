@@ -1,4 +1,4 @@
-import { User, UserActivation, Address } from '../../models'
+import { User, UserActivation, Address } from '../../dbase/models'
 import { ErrorResponse } from '../utils/ErrorResponse'
 import { generateRandomString } from '../utils/function';
 

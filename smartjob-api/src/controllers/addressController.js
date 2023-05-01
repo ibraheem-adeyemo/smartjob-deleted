@@ -1,6 +1,6 @@
 import Responses from '../utils/Responses'
 import {constStrings} from '../constants';
-import { Address } from '../../models'
+import { Address } from '../../dbase/models'
 import { ADDRESS_CREATED_SUCCESSFULLY,
      ADDRESS_ALREADY_CREATED,
      ADDRESS_CAN_NOT_BE_FOUND,

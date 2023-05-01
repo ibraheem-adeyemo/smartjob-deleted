@@ -1,4 +1,4 @@
-import { Work } from '../../models'
+import { Work } from '../../dbase/models'
 import { constStrings } from "../constants";
 import Responses from '../utils/Responses';
 import { Op } from 'sequelize';

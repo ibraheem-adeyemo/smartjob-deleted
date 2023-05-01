@@ -1,0 +1,6 @@
+const path = require('path');
+
+module.exports = {
+    'config': path.resolve('dbase', 'config/config.js'),
+    'url': process.env.POSTGRES_URL
+ };

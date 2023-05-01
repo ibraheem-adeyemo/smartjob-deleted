@@ -1,4 +1,4 @@
-import { User } from '../../models'
+import { User } from '../../dbase/models'
 import { verifyToken } from '../utils/helpers'
 import Responses from '../utils/Responses';
 
