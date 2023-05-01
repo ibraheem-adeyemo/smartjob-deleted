@@ -4,9 +4,9 @@ import { ErrorResponse } from "../utils/ErrorResponse"
 import { composeCourierVerificationMail, composeVerificationMail, courierMailSender, generateOTP, generateToken, hashPassword, sendEmail, sendMail, sendSmsOtp, transporter, verifyToken } from "../utils/helpers"
 import Responses from "../utils/Responses"
 import { authSchema, loginSchema } from "../utils/validations/authValidation";
-import {UserActivation } from '../../models'
+import {UserActivation } from '../../dbase/models'
 import { generateRandomString } from "../utils/function";
-import { User, Profile } from '../../models'
+import { User, Profile } from '../../dbase/models'
 
 const secret = process.env.SECRET
 

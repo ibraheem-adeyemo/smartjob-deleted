@@ -1,6 +1,6 @@
 import Responses from "../utils/Responses"
 import { createAServiceService } from "../services/serviceServices";
-import { Service, Address, Charges, ServiceType, sequelize } from '../../models'
+import { Service, Address, Charges, ServiceType, sequelize } from '../../dbase/models'
 import { serviceSchema, updateServiceSchema } from "../utils/validations/serviceValidation";
 
 import { SERVICE_EXIST_ALREADY, ADDRESS_ALREADY_CREATED,SERVICE_NOT_FOUND, BAD_REQUEST, constStrings } from '../constants'

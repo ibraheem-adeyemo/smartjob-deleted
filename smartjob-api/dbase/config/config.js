@@ -18,14 +18,15 @@ module.exports = {
     password: dbPassword,
     database: dbName,
     host: dbHost,
-    dialect: dbDialect
+    dialect: 'postgres'
   },
   test: {
     username: testDbUser,
     password: testDbPassword,
     database: testDbName,
     host: testDbHost,
-    dialect: dbDialect
+    dialect: dbDialect,
+    port:testDbPort
   },
   production: {
     username: dbUser,

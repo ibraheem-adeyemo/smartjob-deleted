@@ -1,0 +1,7 @@
+const path = require('path');
+
+module.exports = {
+    'config': path.resolve('dbase', 'config/config.js'),
+//   'url': `postgres://onlinelamu:wqGSa5AK4Umb@ep-twilight-rain-289293.us-west-2.aws.neon.tech/neondb?sslmode=require`
+    //'url': `postgresql://smarrtract-admin:uTPp1HQ_hyvZvm_jgoOKcw@faded-duck-7271.7tc.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full`
+};
