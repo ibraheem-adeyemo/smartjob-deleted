@@ -47,3 +47,4 @@ exports.ADDRESS_CAN_NOT_BE_FOUND = "The address with the addressId can not be fo
 exports.ADDRESS_UPDATED_SUCCESSFULLY = "Address is updated successfully",
 exports.SERVICE_NOT_FOUND = "Service is not found",
 exports.BAD_REQUEST = "Bad request"
+exports.LOGIN_SUCCESSFUL = "Login successful"

@@ -16,7 +16,7 @@ import { PHONE_ALREADY_EXISTS_ERR,
      ACCOUNT_HAS_ALREADY_VERIFIED,
      PHONE_OTP_SENT, ACCOUNT_HAS_NOT_BEEN_VERIFIED,
      EMAIIL_CAN_NOT_BE_FOUND,
-     INCORECT_OTP } from '../constants'
+     INCORECT_OTP, LOGIN_SUCCESSFUL } from '../constants'
 
 const signupController = async (req, res, next) => {
     try {
@@ -44,16 +44,15 @@ const signupController = async (req, res, next) => {
             next({status:400, message:EMAIL_ALREADY_EXIST})
             return
         }
-
+        
         const hashedPassword = await hashPassword(value.password)
 
         // // token should ve removed from the database
         value = {...value, password:hashedPassword}
 
 
-
         // const userResponse = await createUser(value)
-        user = await User.create(userObj);
+        user = await User.create(value);
 
         const OTP = generateOTP(6)
 
@@ -84,10 +83,6 @@ const signupController = async (req, res, next) => {
         Responses.setSuccess(201,msg, {jwtToken, data: {...user.dataValues, password:''}});
         Responses.send(res)  
     } catch (error) {
-        // const {code, errno} = JSON.parse(JSON.stringify(error)).parent
-        // errorCode = code
-        // Responses.setError(errorCode, errno)
-        // Responses.send(res)
         next({message:constStrings.databaseError, statusCode:500})
     }
 }
@@ -120,7 +115,7 @@ const loginController = async (req, res, next) => {
         }
 
         const msg = constStrings.msg
-        Responses.setSuccess(200, msg, {token, data});
+        Responses.setSuccess(200, LOGIN_SUCCESSFUL, {token, data});
         Responses.send(res)
     } catch (error) {
         console.log(JSON.parse(JSON.stringify(error)), 3)
@@ -136,6 +131,7 @@ const verifyOTPController = async (req, res, next) => {
         const userActivation = await UserActivation.findOne({
             where:{userId:user.id}
         })
+        
         if(!userActivation) {
             next({status:403, message:ACCOUNT_HAS_ALREADY_VERIFIED});
             return

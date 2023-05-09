@@ -203,5 +203,6 @@ export const courierMailSender = (emailData) => courier.send({
 export const sendMail = (emailData, mailType) => {
     
     const mailContent = composeVerificationMail(emailData, mailType )
+    console.log(mailContent)
     sendEmail(transporter(), mailContent)
 }

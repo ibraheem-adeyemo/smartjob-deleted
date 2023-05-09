@@ -79,13 +79,24 @@ export const isAuthenticated = async (req, res, next) => {
         if(!user) {
             next({status:404, message:USER_NOT_FOUND_ERR})
             return
-        }   
+        }          
+        res.locals.user = user;
+        next()
+        return user
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const isUserVerifiedAndAuthenticated = async (req, res, next) => {
+    try {
+        
+        const user = await isAuthenticated(req, res, next)
         if(!user.isVerified) {
             return next({statusCode:400, message:ACCOUNT_HAS_NOT_BEEN_VERIFIED})
         }
         res.locals.user = user;
         next()
-
     } catch (error) {
         next(error)
     }
@@ -95,6 +106,10 @@ export const isEmailVerified = async (req, res, next) => {
     try {
         const {email } = req.body
         const user = await User.findOne({where:{email}})
+
+        if(!user) {
+            return next({statusCode:400, message:USER_NOT_FOUND_ERR})
+        }
         
         if(!user.isVerified) {
             return next({statusCode:400, message:ACCOUNT_HAS_NOT_BEEN_VERIFIED})

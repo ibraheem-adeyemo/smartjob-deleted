@@ -6,16 +6,14 @@ const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-// const config = require(__dirname + '/../config/config.js')[env];
+const config = require(__dirname + '/../config/config.js')[env];
 // const config = require('../config/config.js')
 const db = {};
 
-// const sequelize = new Sequelize(config.database, config.username, config.password, {
-//     host:'db',
-//     dialect: 'postgres'
-// });
-
-const sequelize = new Sequelize(`postgresql://onlinelamu:wqGSa5AK4Umb@ep-twilight-rain-289293.us-west-2.aws.neon.tech/neondb?sslmode=require`)
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+    host:config.host,
+    dialect: 'postgres'
+});
 
 // const sequelize = new Sequelize(`postgres://${config.username}:${config.password}@${config.host}:${config.port}/${config.username}`)
 
