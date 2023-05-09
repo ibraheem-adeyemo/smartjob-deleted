@@ -25,12 +25,9 @@ const dbUser = process.env.DB_USER
 //     dialect: 'postgres'
 // });
 
-// const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`)
+const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`)
 
-// const sequelize = new Sequelize(`postgres://postgres:p05t9r35@0.0.0.0:5555/postgres`)
-const sequelize = new Sequelize(`postgresql://onlinelamu:wqGSa5AK4Umb@ep-twilight-rain-289293.us-west-2.aws.neon.tech/neondb?sslmode=require`)
-
-// const sequelize = new Sequelize(`postgres://postgres:RMuFGUMNTJi2lsy@smartjob-api-db.internal:5432/smartjob-api-db`)
+// const sequelize = new Sequelize(process.env.POSTGRES_URL)
 
 const checkConnection = async ()=> {
     try {
