@@ -1,6 +1,8 @@
 const path = require('path');
+require('dotenv').config();
 
 module.exports = {
+    // 'url': process.env.POSTGRES_URL,
     'config': path.resolve('dbase', 'config/config.js'),
-    'url': process.env.POSTGRES_URL
+    'migrations-path': path.resolve('dbase', 'migrations') 
  };
