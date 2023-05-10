@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   Charges.init({
     amount: DataTypes.STRING,
     period: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
-    serviceId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER,
+    ServiceId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Charges',

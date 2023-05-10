@@ -13,7 +13,7 @@ module.exports = {
      * }], {});
     */
 
-    await queryInterface.bulkInsert('addresses', [{
+    await queryInterface.bulkInsert('Addresses', [{
         country:'Nigeria',
         state:'Osun',
         city:'iwo',
@@ -168,6 +168,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    return queryInterface.bulkDelete('addresses', null, {})
+    return queryInterface.bulkDelete('Addresses', null, {})
   }
 };

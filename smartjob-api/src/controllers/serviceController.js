@@ -6,6 +6,7 @@ import { serviceSchema, updateServiceSchema } from "../utils/validations/service
 import { SERVICE_EXIST_ALREADY, ADDRESS_ALREADY_CREATED,SERVICE_NOT_FOUND, BAD_REQUEST, constStrings } from '../constants'
 import { findUserAddress } from "../services/user";
 import { getNearestServiceSql } from "../utils/sqls/serviceSQL";
+import { createAddress } from "../services/addressService";
 
 const createServiceController = async (req, res, next) => {
     try {
@@ -61,9 +62,22 @@ const createServiceController = async (req, res, next) => {
         const newService = await Service.create(serviceObj) 
         
         let newAddress
+
+        if(userHaveTheAddress?.length > 0) {
+            Address.update({serviceId:newService.id}, {
+                where: {userId:user.id}
+            })
+        }
+
+        if (typeof location == 'number') {
+            Address.update({serviceId:newService.id}, {
+                where: {userId:user.id}
+            })
+        }
         
         if(typeof location !== 'number' && userHaveTheAddress?.length < 1) {
-            newAddress = await Address.create({...locationObj, location: {type:'Point', coordinates:[longitude,latitude], crs: { type: 'name', properties: { name: 'EPSG:4326'} }}, userId:user.id, coordinate:`${longitude} ${latitude}`, serviceId:newService.id})
+            newAddress = await createAddress({userId:user.id, serviceId:newService.id, ...locationObj })
+            // Address.create({...locationObj, location: {type:'Point', coordinates:[longitude,latitude], crs: { type: 'name', properties: { name: 'EPSG:4326'} }}, userId:user.id, coordinate:`${longitude} ${latitude}`, serviceId:newService.id})
 
             Service.update({location:newAddress.id}, {
                 where: {id:newService.id}
@@ -72,13 +86,13 @@ const createServiceController = async (req, res, next) => {
 
         await Charges.bulkCreate([...serviceChargeObj.map(charg => {
             return {
-                ...charg, userId:user.id, serviceId:newService.id
+                ...charg, UserId:user.id, ServiceId:newService.id
             }
         })])
 
         await ServiceType.bulkCreate([...serviceTypeObj.map(type => {
             return {
-                typeOfService:type, serviceId:newService.id
+                typeOfService:type, ServiceId:newService.id
             }
         })])
         
@@ -91,7 +105,7 @@ const createServiceController = async (req, res, next) => {
             ]
         }
         )
-        Responses.setSuccess(200, 'you just created a Service', serviceResponse);
+        Responses.setSuccess(200, 'you just created a Service', {serviceResponse});
         Responses.send(res)
     } catch (error) {
         next({message:error.message, statusCode:500}) 
@@ -166,8 +180,6 @@ const nearRestServiceController = async (req, res, next) => {
         //         }
         //     }
         // })
-
-        console.log()
         
         const [results, metadata] = await sequelize.query(
             getNearestServiceSql(workId, lat, long)
@@ -192,7 +204,6 @@ const nearRestServiceController = async (req, res, next) => {
         Responses.send(res)
         
     } catch (error) {
-        console.log(error)
         next({message:error.message, statusCode:500})
     }
 }

@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   work.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    code: {
+        allowNull:false,
+        type: DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'Work',

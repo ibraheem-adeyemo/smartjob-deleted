@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('services', {
+    await queryInterface.createTable('Services', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
             model: {
-                tableName:'works'
+                tableName:'Works'
             },
             key: 'id'
         }
@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
             model: {
-                tableName: 'addresses'
+                tableName: 'Addresses'
             },
             key:'id'
         }
@@ -69,7 +69,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
             model: {
-                tableName: 'charges'
+                tableName: 'Charges'
             },
             key:'id'
         }
@@ -85,6 +85,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('services');
+    await queryInterface.dropTable('Services');
   }
 };

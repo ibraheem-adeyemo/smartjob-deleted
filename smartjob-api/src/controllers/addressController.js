@@ -7,35 +7,19 @@ import { ADDRESS_CREATED_SUCCESSFULLY,
      ADDRESS_UPDATED_SUCCESSFULLY
     } from '../constants'
 import { findUserAddress } from '../services/user';
+import { createAddress } from '../services/addressService';
 
 export const createAddressController = async (req, res, next) => {
     try {
         const { user } = res.locals
-        const { country, state, city, subUrb, long, lat } = req.body
-        const addressObj = {
-            country,
-            state,
-            city,
-            subUrb,
-            location: {type:'Point', coordinates:[long,lat]},
-            longitude:long,
-            latitude:lat,
-            userId:user.id,
-            coordinate:`${long} ${lat}`
-        }
-
-        const userAddress = await findUserAddress(user.id)
-
-        if(userAddress.length > 0) {
-            return next({statusCode:403, message: ADDRESS_ALREADY_CREATED})
-        }
-
-        const addressRes = await Address.create(addressObj)
+        
+        const addressRes = await createAddress({userId:user.id, ...req.body}, next)
 
         Responses.setSuccess(201, ADDRESS_CREATED_SUCCESSFULLY, {data:addressRes})
         Responses.send(res)
     } catch (error) {
-        next({message:constStrings.databaseError, statusCode:500})  
+        console.log(error)
+        next({message:constStrings.databaseError, statusCode:500});
     }
 }
 

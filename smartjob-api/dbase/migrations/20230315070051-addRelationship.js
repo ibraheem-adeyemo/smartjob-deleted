@@ -20,7 +20,7 @@ module.exports = {
             //     values: ['active', 'completed', 'cancelled'],
             //     allowNull: false
             // },{transaction}),
-            queryInterface.addColumn('addresses', 'userId', {
+            queryInterface.addColumn('Addresses', 'userId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model:{
@@ -31,17 +31,17 @@ module.exports = {
                 },
                 allowNull:false
             },{transaction}),
-            queryInterface.addColumn('addresses', 'serviceId', {
+            queryInterface.addColumn('Addresses', 'serviceId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
-                        tableName: 'services',
+                        tableName: 'Services',
                         // schema: 'schema'
                     },
                     key:'id'
                 }
             },{transaction}),
-            queryInterface.addColumn('addresses', 'jobId', {
+            queryInterface.addColumn('Addresses', 'jobId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
@@ -112,7 +112,7 @@ module.exports = {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
-                        tableName:'addresses',
+                        tableName:'Addresses',
                         // schema: 'schema'addresses
                     },
                     key: 'id'
@@ -135,7 +135,7 @@ module.exports = {
                     type:Sequelize.DataTypes.INTEGER,
                     references: {
                         model: {
-                            tableName:'services'
+                            tableName:'Services'
                         },
                         key:'id'
                     },
@@ -186,7 +186,7 @@ module.exports = {
                 },
                 allowNull:true
             },{transaction}),
-            queryInterface.addColumn('services', 'userId', {
+            queryInterface.addColumn('Services', 'userId', {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
@@ -212,7 +212,7 @@ module.exports = {
                 type: Sequelize.DataTypes.INTEGER,
                 references: {
                     model: {
-                        tableName:'services',
+                        tableName:'Services',
                         // schema: 'schema'
                     },
                     key: 'id'
@@ -224,7 +224,7 @@ module.exports = {
                     type:Sequelize.DataTypes.INTEGER,
                     references: {
                         model: {
-                            tableName:'services'
+                            tableName:'Services'
                         },
                         key:'id'
                     },

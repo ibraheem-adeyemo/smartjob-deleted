@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE'
       }),
       Service.hasMany(models.Payment)
-      Service.belongsTo(models.Work)
+    //   Service.belongsTo(models.Work)
       Service.hasMany(models.Charges)
       Service.hasMany(models.ServiceType)
     }
