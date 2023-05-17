@@ -6,6 +6,7 @@
   "scripts": {
     "build": "babel -d ./build ./src -s",
     "start": "node ./build/index.js",
+    "start:pm2": "pm2-runtime start ecosystem.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development nodemon ./src/index --exec babel-node",
     "db:migrate": "sequelize db:migrate",
@@ -38,6 +39,7 @@
     "nodemon": "^2.0.21",
     "pg": "^8.10.0",
     "pg-hstore": "^2.3.4",
+    "pm2": "^5.1.0",
     "sequelize": "^6.31.0",
     "sequelize-cli": "^6.6.0"
   },
